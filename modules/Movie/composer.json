@@ -1,0 +1,28 @@
+{
+    "name": "modules/movie",
+    "description": "Modulo para gerencimanto de filmes",
+    "type": "package",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Movie\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitor Guedes",
+            "email": "vtrf2.0@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": false,
+    "version": "1.0.0",
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Movie\\Providers\\MovieServiceProvider"
+            ]
+        }
+    }
+}
