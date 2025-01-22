@@ -1,6 +1,6 @@
 # Movie Api
 
-Projeto de aprendizado, objetivo é pegar uma dataset importar os dados para aplicação e consulmir os dados via api RESTFUL. Implmentar functinoalidade para vizualização dos filmes e criação de reviews, que só devem ser criadas com autenticação.
+Projeto de aprendizado, objetivo é pegar uma dataset importar os dados para aplicação e consulmir os dados via api RESTFUL. Implmentar funcinoalidades para vizualização dos filmes e criação de reviews, que só devem ser criadas com autenticação.
 
 # Instalação
 Instalar as dempendencias e subir a base juntocom as migrations do projeto

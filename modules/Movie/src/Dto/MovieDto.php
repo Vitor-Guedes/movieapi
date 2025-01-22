@@ -40,7 +40,7 @@ class MovieDto extends DataTransferObject
 
     public string|int $runtime;
 
-    #[CastWith(ArrayCaster::class, SpokeLanguages::class)]
+    #[CastWith(ArrayCaster::class, SpokeLanguagesDto::class)]
     public array $spoken_languages;
 
     public string $status;

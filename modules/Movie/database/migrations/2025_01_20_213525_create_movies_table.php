@@ -27,7 +27,6 @@ return new class extends Migration
             $table->text('title', 150);
             $table->text('vote_average', 150);
             $table->text('vote_count', 150);
-            $table->timestamps();
         });
     }
 

@@ -36,7 +36,7 @@ abstract class DataTransferObject
 
     /**
      * @param ReflectionAttribute $castWith
-     * @param array $properties
+     * @param mixed $properties
      * @return mixed
      */
     protected function resolveCast($castWith, $properties)
@@ -49,6 +49,13 @@ abstract class DataTransferObject
     {
         return Arr::mapWithKeys(get_object_vars($this), fn ($value, $key) => 
             [$key => is_array($value) ? Arr::map($value, fn ($item) => $item->toArray()) : $value]
+        );
+    }
+
+    public function toArrayWithPrefix(string $prefix = ''): array
+    {
+        return Arr::mapWithKeys(get_object_vars($this), fn ($value, $key) => 
+            [implode('.', [$prefix, $key]) => is_array($value) ? Arr::map($value, fn ($item) => $item->toArrayWithPrefix($prefix)) : $value]
         );
     }
 }

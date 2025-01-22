@@ -9,7 +9,7 @@ class MovieServiceProvider extends ServiceProvider
 {
     public function boot()
     {
-        // array_count
+        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
     }
 
     public function register()
