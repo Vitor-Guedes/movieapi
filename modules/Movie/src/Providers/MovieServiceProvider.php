@@ -10,6 +10,7 @@ class MovieServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+        $this->loadRoutesFrom(__DIR__ . '/../Routes/api.php');
     }
 
     public function register()

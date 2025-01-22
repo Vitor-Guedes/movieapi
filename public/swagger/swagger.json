@@ -1,0 +1,28 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "First Api Title",
+        "description": "First Api Description",
+        "version": "1.0"
+    },
+    "servers": [
+        {
+            "url": "http://dev.backend.com"
+        }
+    ],
+    "paths": {
+        "/v1/api/movies": {
+            "get": {
+                "operationId": "84594f6c13a7811e5895bd8bb7861178",
+                "responses": {
+                    "200": {
+                        "description": "AOK"
+                    },
+                    "401": {
+                        "description": "Not allowed"
+                    }
+                }
+            }
+        }
+    }
+}

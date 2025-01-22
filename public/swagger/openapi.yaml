@@ -1,0 +1,17 @@
+openapi: 3.0.0
+info:
+  title: 'First Api Title'
+  description: 'First Api Description'
+  version: '1.0'
+servers:
+  -
+    url: localhost
+paths:
+  /api/users:
+    get:
+      operationId: 2ffad5014803228964423d6bfaf06d9a
+      responses:
+        '200':
+          description: AOK
+        '401':
+          description: 'Not allowed'
