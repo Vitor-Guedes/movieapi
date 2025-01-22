@@ -4,7 +4,7 @@ namespace Modules\Movie\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SpokeLanguage extends Model
+class SpokenLanguage extends Model
 {
     protected $fillable = [
         'name',
