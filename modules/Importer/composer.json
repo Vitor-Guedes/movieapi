@@ -1,0 +1,30 @@
+{
+    "name": "modules/importer",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Importer\\": "src/",
+            "Modules\\Importer\\Tests": "/tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitor Guedes",
+            "email": "vtrf2.0@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": false,
+    "version": "1.0.0",
+    "require": {
+        "modules/data-transfer-object": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Importer\\Providers\\ImporterServiceProvider"
+            ]
+        }
+    }
+}
