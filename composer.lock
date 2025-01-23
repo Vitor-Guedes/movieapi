@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb43c89019bd3131725c0d78f0c9c2f1",
+    "content-hash": "d20a9c4d2ce39dc746ca1651fda494c8",
     "packages": [
         {
             "name": "brick/math",
@@ -2024,6 +2024,41 @@
             "autoload": {
                 "psr-4": {
                     "Modules\\DataTransferObject\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Vitor Guedes",
+                    "email": "vtrf2.0@gmail.com"
+                }
+            ],
+            "transport-options": {
+                "symlink": true,
+                "relative": true
+            }
+        },
+        {
+            "name": "modules/importer",
+            "version": "1.0.0",
+            "dist": {
+                "type": "path",
+                "url": "modules/Importer",
+                "reference": "556e1eabd244124ac7324eabb559c4402d73a705"
+            },
+            "type": "project",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Modules\\Importer\\Providers\\ImporterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Modules\\Importer\\": "src/"
                 }
             },
             "license": [

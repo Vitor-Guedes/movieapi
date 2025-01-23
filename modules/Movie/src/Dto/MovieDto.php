@@ -8,25 +8,25 @@ use Modules\DataTransferObject\Attributes\CastWith;
 
 class MovieDto extends DataTransferObject
 {
-    public string $budget;
+    public string $budget = '';
     
     #[CastWith(ArrayCaster::class, GenresDto::class)]
     public array $genres;
 
-    public string $homepage;
+    public string $homepage = '';
 
-    public string|int $id;
+    public string|int $id = '';
 
     #[CastWith(ArrayCaster::class, KeywordsDto::class)]
     public array $keywords;
 
-    public string $original_language;
+    public string $original_language = '';
 
-    public string $original_title;
+    public string $original_title = '';
 
-    public string $overview;
+    public string $overview = '';
 
-    public string $popularity;
+    public string $popularity = '';
 
     #[CastWith(ArrayCaster::class, ProductionCompanyDto::class)]
     public array $production_companies;
@@ -34,22 +34,22 @@ class MovieDto extends DataTransferObject
     #[CastWith(ArrayCaster::class, ProductionCountriesDto::class)]
     public array $production_countries;
 
-    public string $release_date;
+    public string $release_date = '';
 
-    public string|int $revenue;
+    public string|int $revenue = '';
 
-    public string|int $runtime;
+    public string|int $runtime = '';
 
     #[CastWith(ArrayCaster::class, SpokeLanguagesDto::class)]
     public array $spoken_languages;
 
-    public string $status;
+    public string $status = '';
 
-    public string $tagline;
+    public string $tagline = '';
 
-    public string $title;
+    public string $title = '';
 
-    public string|float $vote_average;
+    public string|float $vote_average = '';
 
-    public string|int $vote_count;
+    public string|int $vote_count = '';
 }

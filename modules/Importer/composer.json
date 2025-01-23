@@ -18,7 +18,8 @@
     "prefer-stable": false,
     "version": "1.0.0",
     "require": {
-        "modules/data-transfer-object": "*"
+        "modules/data-transfer-object": "*",
+        "modules/movie": "*"
     },
     "extra": {
         "laravel": {

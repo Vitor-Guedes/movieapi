@@ -34,10 +34,6 @@ class ParserEloquent extends Parser
                 continue ;
             }
 
-            if (is_null($instance)) {
-                $a = 1;
-            }
-
             $instance->{$key} = $value;
         }
 

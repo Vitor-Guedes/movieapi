@@ -19,7 +19,7 @@ class MovieFacet
     {
         $withs = explode(',', $withs);
         \Modules\Movie\Models\Movie::addGlobalScope(
-            'withs', fn ($builder) => $builder->with($withs)
+            'withs', fn ($builder) => $builder->withCount($withs)
         );
     }
 
@@ -54,6 +54,6 @@ class MovieFacet
         foreach ($withFields as $relashion => $columns) {
             $withs[] = "$relashion:" . implode(',', $columns);
         }
-        $builder->with($withs);
+        $builder->withCount($withs);
     }
 }

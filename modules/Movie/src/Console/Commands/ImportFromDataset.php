@@ -6,7 +6,21 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Modules\Importer\Import\ImportEloquent;
+use Modules\Importer\Parser\ParserEloquent;
+use Modules\Importer\Rule;
+use Modules\Movie\Dto\GenresDto;
+use Modules\Movie\Dto\KeywordsDto;
 use Modules\Movie\Dto\MovieDto;
+use Modules\Movie\Dto\ProductionCompanyDto;
+use Modules\Movie\Dto\ProductionCountriesDto;
+use Modules\Movie\Dto\SpokeLanguagesDto;
+use Modules\Movie\Models\Genres;
+use Modules\Movie\Models\Keyword;
+use Modules\Movie\Models\Movie;
+use Modules\Movie\Models\ProductionCompany;
+use Modules\Movie\Models\ProductionCountry;
+use Modules\Movie\Models\SpokenLanguage;
 use Modules\Movie\Services\ImportService;
 
 class ImportFromDataset extends Command
@@ -67,9 +81,8 @@ class ImportFromDataset extends Command
 
         $this->newLine();
 
-        $importService = app(ImportService::class);
-        $this->withProgressBar($movies, function ($movie) use ($importService) {
-            $importService->run($movie);
+        $this->withProgressBar($movies, function ($movie) {
+            $this->import($movie);
         });
     }
 
@@ -88,5 +101,68 @@ class ImportFromDataset extends Command
         } else {
             $this->call('migrate:refresh');
         }
+    }
+
+    protected function import($movie)
+    {
+        $rules = new Rule(map: [
+            [
+                'from' => MovieDto::class,
+                'to' => Movie::class,
+                'alias' => 'movie'
+            ],
+            [
+                'from' => GenresDto::class,
+                'to' => Genres::class,
+                'alias' => 'genres'
+            ],
+            [
+                'from' => KeywordsDto::class,
+                'to' => Keyword::class,
+                'alias' => 'keywords'
+            ],
+            [
+                'from' => ProductionCompanyDto::class,
+                'to' => ProductionCompany::class,
+                'alias' => 'production_companies'
+            ],
+            [
+                'from' => ProductionCountriesDto::class,
+                'to' => ProductionCountry::class,
+                'alias' => 'production_countries'
+            ],
+            [
+                'from' => SpokeLanguagesDto::class,
+                'to' => SpokenLanguage::class,
+                'alias' => 'spoken_languages'
+            ]
+        ], relashions: [
+            [
+                'main' => Movie::class,
+                'with' => Genres::class,
+                'alias' => 'genres'
+            ],
+            [
+                'main' => Movie::class,
+                'with' => Keyword::class,
+                'alias' => 'keywords'
+            ],
+            [
+                'main' => Movie::class,
+                'with' => ProductionCompany::class,
+                'alias' => 'production_companies'
+            ],
+            [
+                'main' => Movie::class,
+                'with' => ProductionCountry::class,
+                'alias' => 'production_countries'
+            ],
+            [
+                'main' => Movie::class,
+                'with' => SpokenLanguage::class,
+                'alias' => 'spoken_languages'
+            ]
+        ]);
+        (new ImportEloquent(ParserEloquent::class, [$movie], $rules))->run();
     }
 }

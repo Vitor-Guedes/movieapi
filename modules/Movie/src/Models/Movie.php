@@ -46,7 +46,7 @@ class Movie extends Model
         return $this->belongsToMany(ProductionCountry::class, 'movie_production_countries', 'movie_id', 'production_country_id');
     }
 
-    public function spoke_languages()
+    public function spoken_languages()
     {
         return $this->belongsToMany(SpokenLanguage::class, 'movie_spoken_languages', 'movie_id', 'spoken_language_id');
     }

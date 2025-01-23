@@ -42,6 +42,9 @@ abstract class DataTransferObject
     protected function resolveCast($castWith, $properties)
     {
         [$caster, $targetClass] = $castWith->getArguments();
+        if (is_null($properties)) {
+            return [];
+        }
         return app($caster)->cast(...compact('targetClass', 'properties'));
     }
 
