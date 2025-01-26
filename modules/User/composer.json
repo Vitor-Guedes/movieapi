@@ -1,11 +1,11 @@
 {
-    "name": "modules/movie",
-    "description": "Modulo para gerencimanto de filmes",
-    "type": "package",
+    "name": "modules/user",
+    "type": "project",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "Modules\\Movie\\": "src/"
+            "Modules\\User\\": "src/",
+            "Modules\\User\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -18,12 +18,12 @@
     "prefer-stable": false,
     "version": "1.0.0",
     "require": {
-        "modules/data-transfer-object": "*"
+        "tymon/jwt-auth": "^2.1"
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Movie\\Providers\\MovieServiceProvider"
+                "Modules\\User\\Providers\\UserServiceProvider"
             ]
         }
     }

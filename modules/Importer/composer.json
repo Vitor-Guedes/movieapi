@@ -5,7 +5,7 @@
     "autoload": {
         "psr-4": {
             "Modules\\Importer\\": "src/",
-            "Modules\\Importer\\Tests": "/tests"
+            "Modules\\Importer\\Tests\\": "tests/"
         }
     },
     "authors": [
