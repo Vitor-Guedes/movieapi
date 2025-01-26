@@ -12,4 +12,6 @@ class SpokenLanguage extends Model
     ];
 
     public $timestamps = false;
+
+    protected $hidden = ['pivot'];
 }

@@ -12,4 +12,6 @@ class ProductionCountry extends Model
     ];
 
     public $timestamps = false;
+
+    protected $hidden = ['pivot'];
 }

@@ -12,4 +12,6 @@ class Keyword extends Model
     ];
 
     public $timestamps = false;
+    
+    protected $hidden = ['pivot'];
 }

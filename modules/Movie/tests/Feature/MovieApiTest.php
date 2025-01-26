@@ -3,6 +3,7 @@
 namespace Modules\Movie\Tests\Feature;
 
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
@@ -27,6 +28,12 @@ class MovieApiTest extends TestCase
             'vote_average',
             'vote_count'
         ], $extra);
+    }
+
+    protected function tearDown(): void
+    {
+        $this->beforeApplicationDestroyed(fn () => DB::disconnect());
+        parent::tearDown();
     }
 
     public function test_should_be_able_to_bring_up_a_list_of_movies()
@@ -97,7 +104,7 @@ class MovieApiTest extends TestCase
 
     public function test_should_be_able_to_bring_the_movies_with_all_your_relationships()
     {
-        $borders = implode(",", ["genres", "keywords", "production_companies", "production_countries", "spoke_languages"]);
+        $borders = implode(",", ["genres", "keywords", "production_companies", "production_countries", "spoken_languages"]);
         $url = route('v1.api.movie.get') . "?with=$borders";
 
         $response = $this->getJson($url);
@@ -110,7 +117,7 @@ class MovieApiTest extends TestCase
                     'keywords' => ['*' => ['id','name']],
                     'production_companies' => ['*' => ['id','name']],
                     'production_countries' => ['*' => ['id', 'name', 'iso_3166_1']],
-                    'spoke_languages' => ['*' => ['id', 'name', 'iso_639_1']]
+                    'spoken_languages' => ['*' => ['id', 'name', 'iso_639_1']]
                 ])
             ]
         ]);              
@@ -152,5 +159,143 @@ class MovieApiTest extends TestCase
                 ]),
             ]
         ]);
+    }
+
+    public function test_must_be_able_to_bring_data_on_the_relationships_of_a_specific_film()
+    {
+        $movieId = \Modules\Movie\Models\Movie::inRandomOrder()->first();
+
+        $realtions = ['genres', 'keywords', 'production_companies', 'production_countries', 'spoken_languages'];
+        $realtion = $realtions[rand(0, count($realtions) - 1)];
+
+        $response = $this->getJson(route('v1.api.movie.relation.find', [
+            'id' => $movieId,
+            'relation' => $realtion
+        ]));
+
+        $response->assertStatus(200);
+        $response->assertJsonStructure([
+            'movie_id',
+            $realtion => [
+                '*' => [
+                    'id'
+                ]
+            ]
+        ]);
+    }
+
+    public function test_must_be_able_to_use_a_query_with_like_operator_to_filter_results()
+    {
+        $query = http_build_query([
+            'query' => [
+                'and' => [
+                    [   
+                        'field' => 'title',
+                        'operator' => 'lk',
+                        'value' => 'ava'
+                    ],
+                    [
+                        'field' => 'status',
+                        'operator' => 'lk',
+                        'value' => 'Released'
+                    ]
+                ]
+            ],
+            'fields' => 'id,title,status'
+        ]);
+
+        $url = route('v1.api.movie.get'). "?" . $query;
+
+        $response = $this->getJson($url);
+
+        $response->assertStatus(200);
+        $this->assertMatchesRegularExpression('/ava/', $response->json('data')[0]['title']);
+        $this->assertMatchesRegularExpression('/Released/', $response->json('data')[0]['status']);
+    }
+
+    public function test_should_be_able_to_filter_using_query_condition_or()
+    {
+        $query = http_build_query([
+            'query' => [
+                'or' => [
+                    [   
+                        'field' => 'runtime',
+                        'operator' => 'eq',
+                        'value' => 124
+                    ],
+                    [   
+                        'field' => 'runtime',
+                        'operator' => 'eq',
+                        'value' => 88
+                    ],
+                ]
+            ],
+            'fields' => 'id,runtime',
+            'limit' => 100
+        ]);
+
+        $url = route('v1.api.movie.get'). "?" . $query;
+
+        $response = $this->getJson($url);
+
+        $response->assertStatus(200);
+        $this->assertEquals(124, $response->json('data')[0]['runtime']);
+        $this->assertEquals(88, $response->json('data')[30]['runtime']);
+    }
+
+    public function test_must_be_able_to_bring_the_records_with_the_equal_query_the_attribute()
+    {
+        $query = [
+            'query' => [
+                'field' => 'budget',
+                'operator' => 'eq',
+                'value' => 28000000
+            ]
+        ];
+        $query = http_build_query($query);
+        $url = route('v1.api.movie.get'). "?" . $query;
+
+        $response = $this->getJson($url);
+
+        $response->assertStatus(200);
+        $this->assertEquals(28000000, $response->json('data')[0]['budget']);
+    }
+
+    public function test_must_be_able_to_bring_records_with_the_query_greater_than()
+    {
+        $query = [
+            'query' => [
+                'field' => 'runtime',
+                'operator' => 'gt',
+                'value' => 124
+            ],
+            'fields' => 'id,runtime'
+        ];
+        $query = http_build_query($query);
+        $url = route('v1.api.movie.get'). "?" . $query;
+
+        $response = $this->getJson($url);
+
+        $response->assertStatus(200);
+        $this->assertGreaterThan(124, $response->json('data')[0]['runtime']);
+    }
+
+    public function test_must_be_able_to_bring_records_with_the_query_lass_than()
+    {
+        $query = [
+            'query' => [
+                'field' => 'runtime',
+                'operator' => 'lt',
+                'value' => 118
+            ],
+            'fields' => 'id,runtime'
+        ];
+        $query = http_build_query($query);
+        $url = route('v1.api.movie.get'). "?" . $query;
+
+        $response = $this->getJson($url);
+
+        $response->assertStatus(200);
+        $this->assertLessThan(118, $response->json('data')[0]['runtime']);
     }
 }

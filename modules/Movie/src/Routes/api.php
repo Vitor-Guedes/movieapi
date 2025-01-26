@@ -12,6 +12,8 @@ Route::prefix('v1')->group(function () {
             Route::controller(MovieController::class)->group(function () {
     
                 Route::get('', 'index')->name('v1.api.movie.get');
+
+                Route::get('{id}/{relation}', 'findWithRelation')->name('v1.api.movie.relation.find');
         
             });
 

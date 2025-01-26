@@ -12,4 +12,6 @@ class ProductionCompany extends Model
     ];
 
     public $timestamps = false;
+
+    protected $hidden = ['pivot'];
 }

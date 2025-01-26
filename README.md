@@ -160,12 +160,7 @@ Endpoint para listar os generos de um filme. A lista retornar por padão 10 regi
             "name": ""
         },
         ...
-    ],
-    // Paginate Data
-    "count": 10,
-    "next_page": "",
-    "curr_page": ""
-]
+    ]
 ```
 </details>
 

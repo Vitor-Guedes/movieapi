@@ -13,6 +13,8 @@ class Genres extends Model
 
     public $timestamps = false;
 
+    protected $hidden = ['pivot'];
+
     public function movies()
     {
         $this->belongsToMany(Movie::class, 'movie_genres', 'genre_id', 'movie_id');
