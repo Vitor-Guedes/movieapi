@@ -15,7 +15,7 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     protected $hidden = [
-        // 'password'
+        'password'
     ];
 
     public function getJWTIdentifier()
@@ -38,5 +38,10 @@ class User extends Authenticatable implements JWTSubject
         return [
             'password' => 'hashed',
         ];
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
     }
 }

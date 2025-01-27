@@ -2,27 +2,12 @@
 
 namespace Modules\User\Tests;
 
-use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
+use Modules\User\Tests\Traits\User;
 
 class UserApiTest extends TestCase
-{
-    protected function setUp(): void
-    {
-        parent::setUp();
-        
-        DB::table('users')->truncate();
-    }
-
-    protected function fakeUser(): array
-    {
-        return [
-            'name' => fake()->name(),
-            'email' => fake()->email(),
-            'password' => '123456',
-            'password_confirmation' => '123456'
-        ];
-    }
+{   
+    use User;
 
     public function test_should_be_able_to_register_new_user()
     {
@@ -36,8 +21,7 @@ class UserApiTest extends TestCase
 
     public function test_must_be_able_to_login_and_obtain_an_access_token()
     {
-        $payload = $this->fakeUser();
-        $this->postJson(route('v1.api.user.store'), $payload);
+        $payload = $this->registerNewUser();
 
         $response = $this->postJson(route('v1.api.user.token'), $payload);
 
@@ -49,38 +33,28 @@ class UserApiTest extends TestCase
         ]);
     }
 
-
     public function test_must_be_able_to_obtain_user_data()
     {
-        $payload = $this->fakeUser();
-        $this->postJson(route('v1.api.user.store'), $payload);
-        $response = $this->postJson(route('v1.api.user.token'), $payload);
-        $headers = [
-            $response->json('type') => $response->json('token')
-        ];
+        $token = $this->generateTokenAndUserData();
+        $headers = [$token['type'] => $token['token']];
 
         $response = $this->getJson(route('v1.api.user'), $headers);
 
         $response->assertSuccessful();
-        $this->assertEquals($payload['email'], $response->json('email'));
-        $this->assertEquals($payload['name'], $response->json('name'));
+        $this->assertEquals($token['user']['email'], $response->json('email'));
+        $this->assertEquals($token['user']['name'], $response->json('name'));
     }
 
     public function test_should_be_able_to_disable_access_token()
     {
-        $payload = $this->fakeUser();
-        $this->postJson(route('v1.api.user.store'), $payload);
-        $response = $this->postJson(route('v1.api.user.token'), $payload);
-        $headers = [
-            $response->json('type') => $response->json('token')
-        ];
+        $token = $this->generateTokenAndUserData();
+        $headers = [$token['type'] => $token['token']];
 
-        $response = $this->getJson(route('v1.api.user'), $headers);
-
+        // test response logout
         $response = $this->getJson(route('v1.api.user.logout'), $headers);
-
         $response->assertSuccessful();
 
+        // test unathorized after sucessful logout
         $response = $this->getJson(route('v1.api.user'), $headers);
         $response->assertUnauthorized();
     }

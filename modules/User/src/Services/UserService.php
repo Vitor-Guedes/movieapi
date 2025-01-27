@@ -4,7 +4,6 @@ namespace Modules\User\Services;
 
 use Exception;
 use Modules\User\Models\User;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserService
 {
@@ -53,11 +52,19 @@ class UserService
     }
 
     /**
+     * @return User
+     */
+    public function getLoggedUser(): User
+    {
+        return auth('api')->user();
+    }
+
+    /**
      * @return array
      */
-    public function getLoggedUser(): array
+    public function getLoggedUserArray(): array
     {
-        return auth('api')->user()->toArray();
+        return $this->getLoggedUser()->toArray();
     }
 
     /**

@@ -57,4 +57,15 @@ class UserController extends Controller
     {
         return response()->json($userService->logout(), Response::HTTP_OK);
     }
+
+    /**
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function unauthorized()
+    {
+        return response()->json([
+            'message' => __('user::app.user.unauthorized')
+        ], Response::HTTP_UNAUTHORIZED);
+    }
 }
