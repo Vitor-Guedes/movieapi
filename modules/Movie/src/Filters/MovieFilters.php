@@ -23,6 +23,9 @@ class MovieFilters
 
         foreach ($parameter as $method => $value) {
             if (method_exists($this, $method)) {
+                if (is_null($value) || empty($value)) {
+                    continue ;
+                }
                 $this->{$method}($value);
             }
         }

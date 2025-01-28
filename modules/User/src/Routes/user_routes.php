@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Modules\User\Http\Controllers\UserController;
+use Modules\User\Http\Controllers\V1\UserController;
 
 Route::prefix('v1')->group(function () {
 
@@ -17,7 +17,7 @@ Route::prefix('v1')->group(function () {
                 Route::post('token', 'generateToken')->name('v1.api.user.token');
 
                 // authenticated
-                Route::middleware('auth:api')->group(function () {
+                Route::middleware(['auth:api', 'jwt.auth', 'jwt.refresh'])->group(function () {
 
                     Route::get('', 'user')->name('v1.api.user');
 

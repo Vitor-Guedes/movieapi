@@ -72,7 +72,7 @@ class UserService
      */
     public function logout(): array
     {
-        auth('api')->logout();
+        auth('api')->parseToken()->invalidate(true);
         return [];
     }
 }
