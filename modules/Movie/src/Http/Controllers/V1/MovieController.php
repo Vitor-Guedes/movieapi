@@ -150,6 +150,19 @@ class MovieController extends Controller
         return response()->json($data, Response::HTTP_OK);
     }
 
+     /**
+     * @param int $id
+     * @param string $relation
+     * @param MovieService $movieService
+     * 
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function find(int $id, MovieService $movieService)
+    {
+        $data = $movieService->filterApply(fn ($service) => $service->find($id));
+        return response()->json($data, Response::HTTP_OK);
+    }
+
     /**
      * @param int $id
      * @param string $relation

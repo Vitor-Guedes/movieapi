@@ -32,6 +32,14 @@ class MovieService
 
     /**
      * @param int $movie
+     */
+    public function find(int $movieId)
+    {
+        return Movie::findOrFail($movieId);
+    }
+
+    /**
+     * @param int $movie
      * @param string $relation
      */
     public function findWithRelation(int $movieId, string $relation)
