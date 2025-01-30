@@ -31,10 +31,12 @@ export default {
     methods: {
         previous() {
             this.$parent.fetch(this.prev_page_url);
+            this.$movieService.last_url = this.prev_page_url;
         },
 
         next() {
             this.$parent.fetch(this.next_page_url);
+            this.$movieService.last_url = this.next_page_url;
         }
     }
 }

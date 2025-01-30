@@ -34,7 +34,11 @@ export default {
     },
 
     beforeMount() {
-        this.fetch('http://dev.backend.com/v1/api/movies');
+        this.fetch(
+            this.$movieService.last_url != '' 
+                ? this.$movieService.last_url 
+                    : 'http://dev.backend.com/v1/api/movies'
+        );
     },
 
     data() {
