@@ -1,0 +1,30 @@
+{
+    "name": "modules/front",
+    "type": "project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Front\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Vitor Guedes",
+            "email": "vtrf2.0@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "prefer-stable": false,
+    "version": "1.0.0",
+    "require": {
+        "modules/movie": "*",
+        "modules/user": "*"
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Front\\Providers\\FrontServiceProvider"
+            ]
+        }
+    }
+}

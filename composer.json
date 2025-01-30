@@ -13,6 +13,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "modules/data-transfer-object": "^1.0",
+        "modules/front": "^1.0",
         "modules/importer": "^1.0",
         "modules/movie": "^1.0",
         "modules/user": "*",
