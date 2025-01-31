@@ -18,13 +18,13 @@ export default {
             pattern: /^(w|h|my|mx|p|m|mb)-(\d+|\d+\/\d+|full|screen|auto|min|max|fit)$/ 
         },
         {
-            pattern: /^(text|shadow)-(sm|md|lg|2xl|inner)$/,
+            pattern: /^(text|shadow)-(xs|sm|md|lg|2xl|inner)$/,
         },
         {
             pattern: /^(top|left|rigth|bottom|inset|z)-(\d+|\d\/\d|auto)$/
         },
         { 
-            pattern: /^(border)(-[trblxy])?-(\d+|0)$/ 
+            pattern: /^(border|p)(-[trblxy]|[trblxy])?-(\d+|0|\d)$/ 
         },
         { 
             pattern: /^columns-(\d+)$/
@@ -42,6 +42,16 @@ export default {
         'relative', 'absolute', 'fixed', 'sticky',
         
         'italic',
+
+        'subpixel-antialiased',
+
+        'line-clamp-3', 'line-clamp-1',
+
+        'text-nowrap',
+
+        'overflow-x-auto',
+
+        'text-wrap', 'text-nowrap'
     ],
     theme: {
         extend: {
