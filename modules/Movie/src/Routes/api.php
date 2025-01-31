@@ -24,3 +24,5 @@ Route::prefix('v1')->group(function () {
     });
 
 });
+
+Route::get('images', [MovieController::class, 'images']);

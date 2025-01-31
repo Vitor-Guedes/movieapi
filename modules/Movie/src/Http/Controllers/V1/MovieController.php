@@ -5,6 +5,7 @@ namespace Modules\Movie\Http\Controllers\V1;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 use App\Http\Controllers\Controller;
+use Illuminate\Pipeline\Pipeline;
 use Modules\Movie\Services\MovieService;
 
 class MovieController extends Controller
@@ -174,5 +175,84 @@ class MovieController extends Controller
     {
         $data = $movieService->findWithRelation($id, $relation);
         return response()->json($data, Response::HTTP_OK);
+    }
+
+    public function images()
+    {
+        $term = request()->input('term', '');
+
+        $result = app(Pipeline::class)
+            ->send($term)
+            ->through([
+                // 1º Base de Dados Mysql
+                function ($term, $next) {
+                    $movie = \Modules\Movie\Models\Movie::where('title', $term)->first(['id']);
+
+                    // Buscar em movie_images where movie_id = $movie->id
+                    // $images = \Modules\Movie\Models\Image::where('movie_id', $movie->id)->first(['list_json']);
+                    $images = new \stdClass;
+                    if (isset($images->list_json)) {
+                        return $images->list_json;
+                    }
+
+                    return $next([$term, $movie]);
+                },
+
+                // 2º Buscar imagem no google search
+                function ($args, $next) {
+                    [$term, $movie] = $args;
+
+                    $content = file_get_contents(base_path('public') . '/busca.json');
+
+                    $items = array_map(function ($item) {
+                        return [
+                            'thumble' => $item['image']['thumbnailLink'],
+                            'link' => $item['link']
+                        ];
+                    }, json_decode($content, true)['items']);
+
+                    // store in database
+                    // $imageMovie = \Modules\Movie\Models\Image::create([
+                    //     'movie_id' => $movie->id,
+                    //     'list_json' => $items
+                    // ]);
+
+                    return $items;
+                }
+            ])
+            ->then(function ($content) {
+                return $content;
+            });
+
+        return response()->json($result);
+
+        // $settings = config('movie.images', []);
+        // $baseUrl = $settings['google_cse_url'];
+        // $searchEngineId = $settings['google_cse_id'];
+        // $apiKey = $settings['google_cse_key'];
+        // $num = 10;
+
+        
+        // $termo = "Procurando Nemo";
+
+        // $url = "$baseUrl?q=" . urlencode($termo) .
+        //    "&cx=$searchEngineId&key=$apiKey&searchType=image&num=$num";
+
+        // $response = file_get_contents($url);
+        // $data = json_decode($response, true);
+
+        // $res = file_put_contents(base_path('public'). '/busca.json', $response);
+
+        // dd($response, $data, $res);
+
+        // $content = file_get_contents(base_path('public') . '/busca.json');
+        // $arr = json_decode($content, true);
+        // $arr = array_map(function ($item) {
+        //     return [
+        //         'thumble' => $item['image']['thumbnailLink'],
+        //         'link' => $item['link']
+        //     ];
+        // }, $arr['items']);
+        // return response()->json($arr); 
     }
 }
