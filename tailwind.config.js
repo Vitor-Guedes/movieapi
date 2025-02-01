@@ -33,7 +33,7 @@ export default {
             pattern: /^(content|self|justify)-(\w+)$/
         },
         { 
-            pattern: /^(overflow)-(\w+)$/
+            pattern: /^(overflow|transition|object)-(\w+)$/
         },
         { 
             pattern: /grid-cols-(\d)/
@@ -51,7 +51,11 @@ export default {
 
         'overflow-x-auto',
 
-        'text-wrap', 'text-nowrap'
+        'text-wrap', 'text-nowrap',
+
+        'transform',
+
+        'w-[500px]', 'h-[300px]'
     ],
     theme: {
         extend: {
