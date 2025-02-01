@@ -54,13 +54,7 @@ class MovieImageService
      */
     public function googleSearch(string $term): array
     {
-        return app(GoogleSearchClient::class)->get($term);
-
-        // @todo replace by class
-        return json_decode(
-            file_get_contents(base_path('public') . '/busca.json'),
-            true
-        );
+        return app(GoogleSearchClient::class, config('movie.images'))->get($term);
     }
 
     /**

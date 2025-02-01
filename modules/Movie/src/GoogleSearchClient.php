@@ -14,7 +14,7 @@ class GoogleSearchClient
         protected string $google_cse_id,
         protected string $google_cse_key,
         protected int $quantity = 10,
-        protected int $maxRequests = 100,
+        protected int $maxRequests = 90,
         protected string $fileRequests = 'google_search/requests.json'
     )
     {
@@ -79,7 +79,7 @@ class GoogleSearchClient
         $today = $now->format('d-m-y');
         $count = $json[$today] ?? 0;
 
-        return $count >= $this->maxRequests;
+        return $count < $this->maxRequests;
     }
 
     /**
@@ -94,7 +94,8 @@ class GoogleSearchClient
             'cx' => $this->google_cse_id,
             'key' => $this->google_cse_key,
             'searchType' => 'image',
-            'num' => $this->quantity
+            'num' => $this->quantity,
+            'imgSize' => 'medium'
         ]);
     }
 

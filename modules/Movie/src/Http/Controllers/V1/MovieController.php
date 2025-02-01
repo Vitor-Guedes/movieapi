@@ -5,6 +5,7 @@ namespace Modules\Movie\Http\Controllers\V1;
 use Illuminate\Http\Response;
 use OpenApi\Attributes as OA;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Pipeline\Pipeline;
 use Modules\Movie\Services\MovieImageService;
 use Modules\Movie\Services\MovieService;
@@ -185,10 +186,17 @@ class MovieController extends Controller
      */
     public function images(MovieImageService $movieImageService)
     {
-        $term = request()->input('term', '');
-        $keys = ['link', 'image.thumbnailLink'];
-        $images = $movieImageService->findByTerm($term);
-        $simplify = $movieImageService->simplify($images['items'], $keys);
-        return response()->json($simplify, Response::HTTP_OK);
+        try {
+            $term = request()->input('term', '');
+            if (!$term) {
+                throw new Exception('Termo de busca vazio');
+            }
+            $keys = ['link', 'image.thumbnailLink'];
+            $imageSearchDto = $movieImageService->findByTerm($term);
+            $simplify = $movieImageService->simplify($imageSearchDto->image_list['items'], $keys);
+            return response()->json($simplify, Response::HTTP_OK);
+        } catch (Exception $e) {
+            return response()->json([], Response::HTTP_OK);
+        }
     }
 }
