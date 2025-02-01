@@ -22,4 +22,38 @@
     .scrollbar::-webkit-scrollbar-thumb:hover {
         background: rgb(99 102 241 / var(--tw-border-opacity, 1));
     }
+
+    .swiper-wrapper {
+        width: 100%;
+        height: max-content !important;
+        padding-bottom: 64px !important;
+        -webkit-transition-timing-function: linear !important;
+        transition-timing-function: linear !important;
+        position: relative;
+    }
+
+    .swiper-pagination-bullet {
+        background: #4f46e5;
+    }
+
+    .ok {
+        background: red !important;
+    }
+}
+
+swiper-wrapper {
+    width: 100%;
+    height: max-content !important;
+    padding-bottom: 64px !important;
+    -webkit-transition-timing-function: linear !important;
+    transition-timing-function: linear !important;
+    position: relative;
+}
+
+.swiper-pagination-bullet {
+    background: #4f46e5;
+}
+
+.ok {
+    background: red !important;
 }

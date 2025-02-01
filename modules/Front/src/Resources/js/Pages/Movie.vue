@@ -23,6 +23,10 @@
 
                 <div id="divider" class="border shadow-sm my-2"></div>
 
+                <Images :list="image_list"/>
+
+                <div id="divider" class="border shadow-sm my-2"></div>
+
                 <blockquote>
                     <p v-text="source.overview"></p>
                 </blockquote>
@@ -127,23 +131,28 @@
 <script>
 import Layout from '../Layout.vue';
 import BudgeList from '../components/BadgeList.vue';
+import Images from '../components/Images.vue';
 
 export default {
     name: 'Movie',
 
     components: {
         Layout,
-        BudgeList
+        BudgeList,
+        Images
     },
 
     async beforeCreate() {
         const relations = ['genres', 'spoken_languages', 'production_countries', 'keywords', 'production_companies'];
         this.source = await this.$movieService.findWith(this.$route.params.id, relations);
+        this.image_list = await this.$movieService.images(this.source.original_title || this.source.title);
+        console.log(this.image_list)
     },
 
     data() {
         return {
-            source: {}
+            source: {},
+            image_list: []
         }
     },
 

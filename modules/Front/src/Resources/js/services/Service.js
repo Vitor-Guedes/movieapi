@@ -44,6 +44,15 @@ class MovieService {
         return (new Date(date)).getFullYear();
     }
 
+    async images(term) {
+        try {
+            const response = await axios.get('/v1/api/movies/images?term=' + term);
+            return await response.status === 200 ? response.data : [];
+        } catch (e) {
+            console.error(e);
+            return [];
+        }
+    }
 }
 
 class Services {
