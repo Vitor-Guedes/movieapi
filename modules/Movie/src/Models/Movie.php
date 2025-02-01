@@ -50,4 +50,9 @@ class Movie extends Model
     {
         return $this->belongsToMany(SpokenLanguage::class, 'movie_spoken_languages', 'movie_id', 'spoken_language_id');
     }
+
+    public function images()
+    {
+        return $this->hasOne(MovieImage::class, 'movie_id', 'id');
+    }
 }
